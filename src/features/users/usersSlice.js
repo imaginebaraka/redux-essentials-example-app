@@ -12,4 +12,4 @@ const userSlice = createSlice({
   reducers: {},
 })
 
-export default userSlice
+export default userSlice.reducer

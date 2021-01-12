@@ -1,25 +1,38 @@
 import React, { useState } from 'react'
-import { useDispatch } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
 import { postAdded } from './postSlice'
 
 export const AddPostForm = () => {
   const [title, setTitle] = useState('')
   const [content, setContent] = useState('')
+  const [userId, setUserId] = useState('')
 
   const dispatch = useDispatch()
 
+  const users = useSelector((state) => state.users)
+
   const onTitlechange = (e) => setTitle(e.target.value)
   const onContentChange = (e) => setContent(e.target.value)
+  const onAuthorChanged = (e) => setUserId(e.target.value)
 
   const onSavePostClicked = () => {
     if (title && content) {
-      dispatch(postAdded(title, content))
+      dispatch(postAdded(title, content, userId))
       setTitle('')
       setContent('')
     }
   }
+
+  const canSave = Boolean(title) && Boolean(content) && Boolean(userId)
+
+  const userOptions = users.map((user) => (
+    <option value={user.id} key={user.id}>
+      {user.name}
+    </option>
+  ))
+
   return (
-    <sectiom>
+    <section>
       <h2>Add a new Post</h2>
       <form>
         <label htmlFor="postTitle">Post Title:</label>
@@ -30,7 +43,16 @@ export const AddPostForm = () => {
           value={title}
           onChange={onTitlechange}
         />
-
+        <label htmlFor="postAuthor">Author:</label>
+        <select
+          name="postAuthor"
+          id="postAuthor"
+          value={userId}
+          onChange={onAuthorChanged}
+        >
+          <option value=""></option>
+          {userOptions}
+        </select>
         <label htmlFor="postContent">Content:</label>
         <textarea
           name="postContent"
@@ -38,10 +60,10 @@ export const AddPostForm = () => {
           value={content}
           onChange={onContentChange}
         ></textarea>
-        <button type="button" onClick={onSavePostClicked}>
+        <button type="button" onClick={onSavePostClicked} disabled={!canSave}>
           Save Post
         </button>
       </form>
-    </sectiom>
+    </section>
   )
 }

@@ -9,7 +9,7 @@ import {
 import { Navbar } from './app/Navbar'
 import { AddPostForm } from './features/posts/AddPostForm'
 import { EditPostForm } from './features/posts/EditPostForm'
-import { PostList } from './features/posts/postList'
+import { PostsList } from './features/posts/postList'
 import { SinglePostPage } from './features/posts/SinglePostPage'
 
 function App() {
@@ -24,7 +24,7 @@ function App() {
             render={() => (
               <React.Fragment>
                 <AddPostForm />
-                <PostList />
+                <PostsList />
               </React.Fragment>
             )}
           />
